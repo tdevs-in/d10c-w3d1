@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+    title: Todo App API
+    version: 1.0.0
+paths:
+    /create:
+        post:
+            summary: Create a new todo
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                            required:
+                                - title
+            responses:
+                "201":
+                    description: Todo created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+    /todos:
+        get:
+            summary: Get all todos
+            responses:
+                "200":
+                    description: List of todos
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Todo"
+    /complete:
+        put:
+            summary: Mark a todo as complete
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: Todo marked as complete
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+    /delete:
+        delete:
+            summary: Delete a todo
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: Todo deleted
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+    /toggleflag:
+        post:
+            summary: Toggle the flag to enable or disable endpoints
+            responses:
+                "200":
+                    description: Flag toggled successfully
+components:
+    schemas:
+        Todo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                title:
+                    type: string
+                status:
+                    type: string
